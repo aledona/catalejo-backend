@@ -58,6 +58,19 @@ class User:
         db.commit()
         cursor.close()
 
+    @staticmethod
+    def get_by_id(id):
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM users WHERE id = %s", (id,))
+        row = cursor.fetchone()
+        cursor.close()
+        if row:
+            return User(id=row[0], firstname=row[1], lastname=row[2], genre=row[3], email=row[4],
+                        passsword=row[5], birthdate=row[6], country=row[7], lastlogin=row[8])
+        return None
+
+
     def CreateUser(self):
         db = get_db()
         cursor = db.cursor()

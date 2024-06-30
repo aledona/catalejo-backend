@@ -12,11 +12,10 @@ CORS(app)
 
 #registrar una ruta asociada a una vista
 app.route('/',methods=['GET'])(index)
-app.route('/api/movies/',methods=['GET'])(get_all_movies)
-app.route('/api/movies/',methods=['POST'])(create_movie)
-app.route('/api/movies/<int:movie_id>', methods=['GET'])(get_movie)
-app.route('/api/movies/<int:movie_id>', methods=['PUT'])(update_movie)
-app.route('/api/movies/<int:movie_id>', methods=['DELETE'])(delete_movie)
+app.route('/api/countries/',methods=['GET'])(get_all_countries)
+app.route('/api/users/',methods=['POST'])(create_user)
+app.route('/api/users/<int:id>', methods=['PUT'])(update_lastlogin)
+app.route('/api/users/<int:id>', methods=['DELETE'])(delete_user)
 
 if __name__ == '__main__':
     #levanta servidor de desarrollo flask
