@@ -23,14 +23,14 @@ class Country:
         return countries
 
 class User:
-    def __init__(self,id=None,firstname=None,lastname=None,genre=None,email=None,passsword=None,birthday=None,country=None, lastlogin=None):
+    def __init__(self,id=None,firstname=None,lastname=None,genre=None,email=None,password=None,birthdate=None,country=None, lastlogin=None):
         self.id=id
         self.firstname= firstname
         self.lastname= lastname
         self.genre= genre
         self.email= email
-        self.passsword= passsword
-        self.birthday= birthday
+        self.password= password
+        self.birthdate= birthdate
         self.country= country
         self.lastlogin= lastlogin
 
@@ -41,10 +41,10 @@ class User:
             'lastname':self.lastname,
             'genre':self.genre,
             'email':self.email,
-            'passsword':self.passsword,
+            'password':self.password,
             'birthdate':self.birthdate.strftime('%Y-%m-%d'),
             'country':self.country,
-            'lastlogin':self.lastlogin.strftime('%Y-%m-%d'),
+            'lastlogin':self.lastlogin.strftime('%Y-%m-%d') if self.lastlogin else None,
         }
     
     def saveLastLogin(self):
@@ -67,9 +67,19 @@ class User:
         cursor.close()
         if row:
             return User(id=row[0], firstname=row[1], lastname=row[2], genre=row[3], email=row[4],
-                        passsword=row[5], birthdate=row[6], country=row[7], lastlogin=row[8])
+                        password=row[5], birthdate=row[6], country=row[7], lastlogin=row[8])
         return None
-
+    
+    @staticmethod
+    def get_by_email(email):
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        row = cursor.fetchone()
+        cursor.close()
+        if row:
+            return User(id=row[0],email=row[4], password=row[5])
+        return None
 
     def CreateUser(self):
         db = get_db()
@@ -79,7 +89,7 @@ class User:
                        password, birthdate, country, lastlogin ) 
                        VALUES (%s, %s, %s, %s,%s, %s, %s, %s)
         """, (self.firstname, self.lastname, self.genre, self.email,
-              self.passsword, self.birthdate, self.country, self.lastlogin))
+              self.password, self.birthdate, self.country, self.lastlogin))
         #voy a obtener el último id generado
         self.id = cursor.lastrowid
       
