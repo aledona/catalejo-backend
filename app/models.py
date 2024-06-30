@@ -1,6 +1,6 @@
 from app.database import get_db
 
-class country:
+class Country:
     def __init__(self,id=None,name=None):
         self.id=id
         self.name= name 
@@ -18,11 +18,11 @@ class country:
         query = "SELECT * FROM countries"
         cursor.execute(query)
         rows = cursor.fetchall()
-        movies = [Movie(id=row[0], name=row[1]) for row in rows]
+        countries = [Country(id=row[0], name=row[1]) for row in rows]
         cursor.close()
-        return movies
+        return countries
 
-class user:
+class User:
     def __init__(self,id=None,firstname=None,lastname=None,genre=None,email=None,passsword=None,birthday=None,country=None, lastlogin=None):
         self.id=id
         self.firstname= firstname
